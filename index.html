@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html manifest="/scope/cache.manifest">
 <title>scope</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
 var z=(function(z){
  z.z=function(z){if(z.tagName){return [z]};return document.querySelectorAll(z);};
@@ -52,9 +52,9 @@ div{width:100%;border-style:solid;border-width:thin;text-align:left}
 <tr>
 <td>Owner present? <select id="ownpres" class='d'><option></option><option value=1>Yes</option><option value=0>No</option></select></td>
 <td>Inspected at: <select id="loc" class='d'><option></option><option value="o">Owner's Home</option><option value="r">Repair Facility</option></select></td>
-<td>Shop of Choice Name? <select id="soc" class='d'><option></option><option value=1>Yes</option><option value=0>No</option></select></td>
+<td>Shop of Choice? <select id="soc" class='d'><option></option><option value=1>Yes</option><option value=0>No</option></select></td>
 </tr>
-<tr><td colspan=3>Shop of Choice (blank if na): <input id="socn" class='d'></tr>
+<tr><td colspan=3>SOC Name (blank if na): <input id="socn" class='d'></tr>
 <tr>
 <td>Year<br><input id='year' type='number' class='d'></td>
 <td>Make<br><input id='make' class='d'></td>
@@ -73,12 +73,12 @@ div{width:100%;border-style:solid;border-width:thin;text-align:left}
 </tr>
 <tr><td colspan="3"><table><tr>
 <td>Tires:</td><td>
-LF <input id='lftire' type="number" style="width:4em" class='d'>
-LR <input id='lrtire' type="number" style="width:4em" class='d'>
+LF <input id='lftire' type="number" style="width:3em" class='d'>
+LR <input id='lrtire' type="number" style="width:3em" class='d'>
 </td></tr>
 <tr><td>(32nds)<td>
-RF <input id="rftire" type="number" style="width:4em" class="d">
-RR <input id="rrtire" type="number" style="width:4em" class="d">
+RF <input id="rftire" type="number" style="width:3em" class="d">
+RR <input id="rrtire" type="number" style="width:3em" class="d">
 </td></tr>
 <tr>
 <td>Tire Type: <input id="tiretype" class="d"></td>
