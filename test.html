@@ -1,8 +1,11 @@
+<body onload="t2()">
 <div id="div"></div>
 <iframe id="i" src="https://script.google.com/macros/s/AKfycbxzIpjWzwpNHhSnRCSQBCKxpauuZ8_VqjC1pyBZEFOn3RHBc6nC/exec" style="width:100%;height:100%"></iframe>
+</body>
 <script>
-  var t=document.getElementById('i').contentDocument;
-  document.getElementById('div').textContent=t.getElementById('t').textContent;
-  
+  function t2(){
+    var t=document.getElementById('i').contentDocument;
+    document.getElementById('div').textContent=t.getElementById('t').textContent;
+  };
   
 </script>
