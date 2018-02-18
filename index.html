@@ -2,6 +2,109 @@
 <html manifest="/scope/cache.manifest">
 <title>scope</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<form  id='form'>
+<style>
+table{text-align:center;width:100%}
+input{width:100%}
+textarea{height:5em;width:100%}
+</style>
+<table>
+<tr><td colspan=3>File # <input style="width:15em"></td></tr>
+<tr><td colspan=3>Owner email: <input type='email' style='width:75%'></td></tr>
+<tr><td colspan=3>Shop email: <input type='email' style='width:75%'></td></tr>
+<tr>
+<td>Owner present? <select><option></option><option value=1>Yes</option><option value=0>No</option></select></td>
+<td>Inspected at: <select><option></option><option value="o">Owner's Home</option><option value="r">Repair Facility</option></select></td>
+<td>Shop of Choice? <select><option></option><option value=1>Yes</option><option value=0>No</option></select></td>
+</tr>
+<tr><td colspan=3>SOC Name (blank if na): <input></tr>
+<tr>
+<td>Year<br><input type='number'></td>
+<td>Make<br><input></td>
+<td>Model<br><input></td>
+</tr>
+<tr>
+<td colspan=2>VIN <button id="decode" onclick="window.open('https://www.decodethis.com/vin/'+z.v('#vin'));return false">Decode</button><br><input id='vin' class='d'><td>Prod Date<br><input id='proddate' type='month' class='d'></td>
+</tr><tr>
+<td>Lic #<br><input></td>
+<td>Lic State<br><input></td>
+<td>Lic Exp<br><input type='month'></td>
+</tr><tr>
+<td>Int Color<br><input></td>
+<td>Ext Color<br><input></td>
+<td>Miles<br><input type="number"></td>
+</tr>
+<tr><td colspan="3"><table><tr>
+<td>Tires:</td><td>
+LF <input type="number" style="width:3em">
+LR <input type="number" style="width:3em">
+</td></tr>
+<tr><td>(32nds)<td>
+RF <input type="number" style="width:3em">
+RR <input type="number" style="width:3em">
+</td></tr>
+<tr>
+<td>Tire Type: <input></td>
+<td>Tire Size: <input></td>
+</tr></table>
+</td></tr>
+<tr>
+<td>Interior<br><select><option></option><option>Poor</option><option>Average</option><option>Above Avg</option></select></td>
+<td>Exterior<br><select><option></option><option>Poor</option><option>Average</option><option>Above Avg</option></select></td>
+<td>Engine<br><select><option></option><option>Poor</option><option>Average</option><option>Above Avg</option></select></td>
+</tr>
+<tr>
+<td>LF Light<br><input></td>
+<td>F Bumper<br><input></td>
+<td>RF Light<br><input></td>
+</tr>
+<tr>
+<td>L Fender<br><input></td>
+<td>Hood<br><input></td>
+<td>R Fender<br><input></td>
+</tr>
+<tr>
+<td>LF Door<br><input></td>
+<td>Windshield<br><input></td>
+<td>RF Door<br><input></td>
+</tr>
+<tr>
+<td>LR Door<br><input></td>
+<td>Roof<br><input></td>
+<td>RR Door<br><input></td>
+</tr>
+<tr>
+<td>L Quarter<br><input></td>
+<td>Deck Lid<br><input></td>
+<td>R Quarter<br><input></td>
+</tr>
+<tr>
+<td>L Rail<br><input></td>
+<td>Spoiler<br><input></td>
+<td>R Rail<br><input></td>
+</tr>
+<tr>
+<td>LR Light<br><input></td>
+<td>R Bumper<br><input></td>
+<td>RR Light<br><input></td>
+</tr>
+<tr><td colspan=3>UPD:<br><textarea></textarea></td></tr>
+<tr><td colspan=3>Additional Notes:<br><textarea></textarea></td></tr>
+<tr><td colspan=3>Damage noted to:<br><textarea></textarea></td></tr>
+<tr><td colspan=3>AM Parts:<br><textarea></textarea></td></tr>
+<tr><td colspan=3>Options:</td></tr>
+<tr><td colspan=3><button id="optionsbutton" style="width:100%" onclick='showoptions();return false;'>Options</button><div id="optionstext" style="display:none"></div></td></tr>
+<tr id="buttons">
+<td><input type='button' onclick="z.z('#form')[0].reset()" value='Clear'></td><td></td>
+<td><input type='button' onclick='goPrint()' value='Print'></td>
+</tr>
+</table><center>&copy; 2017 MAKA Ltd All Rights Reserved</center></form>
+<div id="optionlist" style="display:none">
+ <input id="optionsvalue" style="display:none">
+ <table id="options"></table>
+ <button onclick="saveoptions();return false;">Save Options</button>
+ <center>&copy; 2017 MAKA Ltd All Rights Reserved</center>
+</div>
 <script>
 var z=(function(z){
  z.z=function(z){if(z.tagName){return [z]};return document.querySelectorAll(z);};
@@ -36,120 +139,7 @@ var z=(function(z){
  };
  return z;
 }(z||{}));
-</script>
-<form  id='form'>
-<style>
-table{text-align:center;width:100%}
-input{width:100%}
-input[type="checkbox"]{width:1rem}
-textarea{height:5em;width:100%}
-div{width:100%;border-style:solid;border-width:thin;text-align:left}
-</style>
-<table>
-<tr><td colspan=3>File # <input id='id' style="width:15em" class='d'></td></tr>
-<tr><td colspan=3>Owner email: <input id='email' type='email' style='width:75%' class='d'></td></tr>
-<tr><td colspan=3>Shop email: <input id='semail' type='email' style='width:75%' class='d'></td></tr>
-<tr>
-<td>Owner present? <select id="ownpres" class='d'><option></option><option value=1>Yes</option><option value=0>No</option></select></td>
-<td>Inspected at: <select id="loc" class='d'><option></option><option value="o">Owner's Home</option><option value="r">Repair Facility</option></select></td>
-<td>Shop of Choice? <select id="soc" class='d'><option></option><option value=1>Yes</option><option value=0>No</option></select></td>
-</tr>
-<tr><td colspan=3>SOC Name (blank if na): <input id="socn" class='d'></tr>
-<tr>
-<td>Year<br><input id='year' type='number' class='d'></td>
-<td>Make<br><input id='make' class='d'></td>
-<td>Model<br><input id='model' class='d'></td>
-</tr>
-<tr>
-<td colspan=2>VIN <button id="decode" onclick="window.open('https://www.decodethis.com/vin/'+z.v('#vin'));return false">Decode</button><br><input id='vin' class='d'><td>Prod Date<br><input id='proddate' type='month' class='d'></td>
-</tr><tr>
-<td>Lic #<br><input id='lic' class='d'></td>
-<td>Lic State<br><input id='licstate' class='d'></td>
-<td>Lic Exp<br><input id='licexp' type='month' class='d'></td>
-</tr><tr>
-<td>Int Color<br><input id="Int" class='d'></td>
-<td>Ext Color<br><input id="Ext" class='d'></td>
-<td>Miles<br><input type="number" id="Miles" class='d'></td>
-</tr>
-<tr><td colspan="3"><table><tr>
-<td>Tires:</td><td>
-LF <input id='lftire' type="number" style="width:3em" class='d'>
-LR <input id='lrtire' type="number" style="width:3em" class='d'>
-</td></tr>
-<tr><td>(32nds)<td>
-RF <input id="rftire" type="number" style="width:3em" class="d">
-RR <input id="rrtire" type="number" style="width:3em" class="d">
-</td></tr>
-<tr>
-<td>Tire Type: <input id="tiretype" class="d"></td>
-<td>Tire Size: <input id="tiresize" class="d"></td>
-</tr></table>
-</td></tr>
-<tr>
-<td>Interior<br><select id="intcond" class="d"><option></option><option>Poor</option><option>Average</option><option>Above Avg</option></select></td>
-<td>Exterior<br><select id="extcond" class="d"><option></option><option>Poor</option><option>Average</option><option>Above Avg</option></select></td>
-<td>Engine<br><select id="engcond" class="d"><option></option><option>Poor</option><option>Average</option><option>Above Avg</option></select></td>
-</tr>
-<tr>
-<td>LF Light<br><a class=t><input id="LFLight" class="d"><img onclick="s('LFLight')"></a></td>
-<td>F Bumper<br><a class=t><input id="FBumper" class="d"><img onclick="s('FBumper')"></a></td>
-<td>RF Light<br><a class=t><input id="RFLight" class="d"><img onclick="s('RFLight')"></a></td>
-</tr>
-<tr>
-<td>L Fender<br><a class=t><input id='LFender' class='d'><img onclick="s('LFender')"></a></td>
-<td>Hood<br><a class=t><input id='Hood' class='d'><img onclick="s('Hood')"></a></td>
-<td>R Fender<br><a class=t><input id='RFender' class='d'><img onclick="s('RFender')"></a></td>
-</tr>
-<tr>
-<td>LF Door<br><a class=t><input id='LFDoor' class='d'><img onclick="s('LFDoor')"></a></td>
-<td>Windshield<br><a class=t><input id='Windshield' class='d'><img onclick="s('Windshield')"></a></td>
-<td>RF Door<br><a class=t><input id='RFDoor' class='d'><img onclick="s('RFDoor')"></a></td>
-</tr>
-<tr>
-<td>LR Door<br><a class=t><input id='LRDoor' class='d'><img onclick="s('LRDoor')"></a></td>
-<td>Roof<br><a class=t><input id='Roof' class='d'><img onclick="s('Roof')"></a></td>
-<td>RR Door<br><a class=t><input id='RRDoor' class='d'><img onclick="s('RRDoor')"></a></td>
-</tr>
-<tr>
-<td>L Quarter<br><a class=t><input id='LQuarter' class='d'><img onclick="s('LQuarter')"></a></td>
-<td>Deck Lid<br><a class=t><input id='DeckLid' class='d'><img onclick="s('DeckLid')"></a></td>
-<td>R Quarter<br><a class=t><input id='RQuarter' class='d'><img onclick="s('RQuarter')"></a></td>
-</tr>
-<tr>
-<td>L Rail<br><a class=t><input id='LRail' class='d'><img onclick="s('LRail')"></a></td>
-<td>Spoiler<br><a class=t><input id='Spoiler' class='d'><img onclick="s('Spoiler')"></a></td>
-<td>R Rail<br><a class=t><input id='RRail' class='d'><img onclick="s('RRail')"></a></td>
-</tr>
-<tr>
-<td>LR Light<br><a class=t><input id='LRLight' class='d'><img onclick="s('LRLight')"></a></td>
-<td>R Bumper<br><a class=t><input id='RBumper' class='d'><img onclick="s('RBumper')"></a></td>
-<td>RR Light<br><a class=t><input id='RRLight' class='d'><img onclick="s('RRLight')"></a></td>
-</tr>
-<tr><td colspan=3>UPD:<img onclick="s('UPD')" src="//i.imgur.com/cHidSVu.gif" style="width:40;position:relative;top:10;margin-top:-30"><br>
-<div id="UPD" class="d" contenteditable></div></td></tr>
-<tr><td colspan=3>Additional Notes:<img onclick="s('notes')" src="//i.imgur.com/cHidSVu.gif" style="width:40;position:relative;top:10;margin-top:-30"><br>
-<div id="notes" class="d" contenteditable></div></td></tr>
-<tr><td colspan=3>Damage noted to:<img onclick="s('damage')"  src="//i.imgur.com/cHidSVu.gif" style="width:40;position:relative;top:10;margin-top:-30"><br>
-<div id="damage" class="d" contenteditable></div></td></tr>
-<tr><td colspan=3>AM Parts:<img onclick="s('amparts')" src="//i.imgur.com/cHidSVu.gif" style="width:40;position:relative;top:10;margin-top:-30"><br>
-<div id="amparts" class="d" contenteditable></div></td></tr>
-<tr><td colspan=3>Options:</td></tr>
-<tr><td colspan=3><button id="optionsbutton" style="width:100%" onclick='showoptions();return false;'>Options</button><div id="optionstext" style="display:none"></div></td></tr>
-<tr id="buttons">
-<td><input type='button' onclick="z.z('#form')[0].reset()" value='Clear'></td><td></td>
-<td><input type='button' onclick='goPrint()' value='Print'></td>
-</tr>
-</table><center>&copy; 2017 MAKA Ltd All Rights Reserved</center></form>
-<div id="optionlist" style="display:none">
- <input id="optionsvalue" style="display:none">
- <table id="options"></table>
- <button onclick="saveoptions();return false;">Save Options</button>
- <center>&copy; 2017 MAKA Ltd All Rights Reserved</center>
-</div>
-<script>
-var img=document.getElementsByTagName('img');
-for(var i=0;i<img.length;i++){img[i].src='//i.imgur.com/cHidSVu.gif'};
-var table=document.getElementById('options');
+var table=z.z('#options')[0];
 var optlist=[
  'fog lights',
  'spoiler',
@@ -195,22 +185,21 @@ function options(){
   var tdc=0;
   for(var i=0;i<optlist.length;i++){
     if(tdc==0){
-      var tr=document.createElement('tr');
+      var tr=z.c('tr');
     }else if(tdc==2){
       tdc=-1;
     };
     tdc++;
-    var td=document.createElement('td');
-    var button=document.createElement('button');
+    var td=z.c('td');
+    var button=z.c('button');
     button.id='opt'+i;
     button.style.width='100%';
     button.style.height='40px';
     button.onclick=function(){this.style.background=this.style.background==''?'yellow':''};
-    button.innerHTML=optlist[i];
-    td.appendChild(button);
-    tr.appendChild(td);
+    z.html(button,optlist[i]);
+    z.a(tr,z.a(td,button));
     if(tdc==0||i==optlist.length-1){
-      table.appendChild(tr);
+      z.a(table,tr);
     };
   };
 };
@@ -229,64 +218,8 @@ function saveoptions(){
  z.h('#optionlist');
  z.s('#form');
 }
-
-var d=document.getElementsByClassName('d');
-
-function s(a){
- if(window.hasOwnProperty('webkitSpeechRecognition')) {
-  var recognition = new webkitSpeechRecognition();
-  recognition.continuous = false;
-  recognition.interimResults = false;
-  recognition.lang = "en-US";
-  recognition.start();
-  recognition.onresult = function(e) {
-   document.getElementById(a).value=e.results[0][0].transcript;
-   recognition.stop();
-  };
-  recognition.onerror = function(e) {
-   recognition.stop();
-}}}
-var id;
-function edit(){
- document.getElementById('success').innerHTML='Sending to office...';
- var optlistdisplay='';
- var ov=document.getElementById('optionsvalue').value;
- ov=toBin(ov,optlist);
- for(var i=0;i<ov.length;i++){if(ov[i]==1){optlistdisplay+=optlist[i]+', '}};
- for(var i=0;i<img.length;i++){img[i].style.display='none'};
- z.h('#decode');
- z.h('#buttons');
- z.h('#optionsbutton');
- document.getElementById('optionstext').innerHTML=optlistdisplay;
- document.getElementById('optionstext').style.display='';
- for(var i=0;i<d.length;i++){var e=d[i];
-  if(e.nodeName=="INPUT"){e.setAttribute('value',e.value)}
-  if(e.nodeName=="TEXTAREA"){e.innerHTML=e.value}
-  if(e.nodeName=="SELECT"){
-   var o = e.options;
-   for(var j=0;j<o.length;j++){
-    if(o[j].value==e.value){
-     o[j].setAttribute('selected','selected');
-    }else{
-     o[j].removeAttribute('selected');
-    };
-   };
-  }
- }
- var html=document.getElementById('form').innerHTML;
- google.script.run.withSuccessHandler(showSuccess).send(z.v('#id'),html);
- for(var i=0;i<img.length;i++){img[i].style.display=''};
- z.s('#decode');
- z.s('#buttons');
- z.s('#optionsbutton');
- z.h('#optionstext');
-}
-
-
-function showSuccess(e){if(e==1){infosent=1;window.open('https://script.google.com/macros/s/AKfycbyUsrrgLAJm2Emr4b0YpVtbmA8T2Iv95zxZ2KhDiL_zB1lTktr-/exec','_top')}else{document.getElementById('success').innerHTML=e}}
-function savesuccess(e){document.getElementById('success').innerHTML=e}
 function showoptions(){
- var v=document.getElementById('optionsvalue').value;
+ var v=z.v('#optionsvalue');
  if(v){
   var v=toBin(v,optlist);
   for(var i=0;i<v.length;i++){
@@ -295,42 +228,21 @@ function showoptions(){
    }
   }
  }
- document.getElementById('form').style.display='none';
- document.getElementById('optionlist').style.display='';
+ z.h('#form');
+ z.s('#optionlist');
 }
 function toBin(v,n){v=Number(v).toString(2);while(v.length<n.length){v='0'+v}return v}
-var infosent=0;
-window.onbeforeunload = function() {
- if(!infosent){return "Are you sure you want to reload the page?"}
-};
 function goPrint(){
  var optlistdisplay='';
- var ov=document.getElementById('optionsvalue').value;
+ var ov=z.v('#optionsvalue');
  ov=toBin(ov,optlist);
  for(var i=0;i<ov.length;i++){if(ov[i]==1){optlistdisplay+=optlist[i]+', '}};
- for(var i=0;i<img.length;i++){img[i].style.display='none'};
  z.h('#decode');
  z.h('#buttons');
  z.h('#optionsbutton');
- document.getElementById('optionstext').innerHTML=optlistdisplay;
- document.getElementById('optionstext').style.display='';
- for(var i=0;i<d.length;i++){var e=d[i];
-  if(e.nodeName=="INPUT"){e.setAttribute('value',e.value)}
-  if(e.nodeName=="TEXTAREA"){e.innerHTML=e.value}
-  if(e.nodeName=="SELECT"){
-   var o = e.options;
-   for(var j=0;j<o.length;j++){
-    if(o[j].value==e.value){
-     o[j].setAttribute('selected','selected');
-    }else{
-     o[j].removeAttribute('selected');
-    };
-   };
-  }
- }
- var html=document.getElementById('form').innerHTML;
+ z.html('#optionstext',optlistdisplay);
+ z.s('#optionstext');
  print();
- for(var i=0;i<img.length;i++){img[i].style.display=''};
  z.s('#decode');
  z.s('#buttons');
  z.s('#optionsbutton');
