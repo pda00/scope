@@ -5,11 +5,11 @@
 <form  id='form'>
 <style>
 table{text-align:center;width:100%}
-input{width:100%}
+input,button{width:100%}
 textarea{height:5em;width:100%}
 </style>
 <table>
-<tr><td colspan=3>File # <input style="width:15em"></td></tr>
+<tr><td colspan=3>File # <input id="file" style="width:15em"></td></tr>
 <tr><td colspan=3>Owner email: <input type='email' style='width:75%'></td></tr>
 <tr><td colspan=3>Shop email: <input type='email' style='width:75%'></td></tr>
 <tr>
@@ -24,7 +24,7 @@ textarea{height:5em;width:100%}
 <td>Model<br><input></td>
 </tr>
 <tr>
-<td colspan=2>VIN <button id="decode" onclick="window.open('https://www.decodethis.com/vin/'+z.v('#vin'));return false">Decode</button><br><input id='vin' class='d'><td>Prod Date<br><input id='proddate' type='month' class='d'></td>
+<td colspan=2>VIN <button id="decode" style="width:5em" onclick="window.open('https://www.decodethis.com/vin/'+z.v('#vin'));return false">Decode</button><br><input id='vin' class='d'><td>Prod Date<br><input id='proddate' type='month' class='d'></td>
 </tr><tr>
 <td>Lic #<br><input></td>
 <td>Lic State<br><input></td>
@@ -95,7 +95,9 @@ RR <input type="number" style="width:3em">
 <tr><td colspan=3>Options:</td></tr>
 <tr><td colspan=3><button id="optionsbutton" style="width:100%" onclick='showoptions();return false;'>Options</button><div id="optionstext" style="display:none"></div></td></tr>
 <tr id="buttons">
-<td><input type='button' onclick="z.z('#form')[0].reset()" value='Clear'></td><td></td>
+<td><input type='button' onclick="z.z('#form')[0].reset()" value='Clear'></td>
+<td><button onclick="sendemail()">email</button>
+<a id="emaila"></a></td>
 <td><input type='button' onclick='goPrint()' value='Print'></td>
 </tr>
 </table><center>&copy; 2017 MAKA Ltd All Rights Reserved</center></form>
@@ -237,16 +239,42 @@ function goPrint(){
  var ov=z.v('#optionsvalue');
  ov=toBin(ov,optlist);
  for(var i=0;i<ov.length;i++){if(ov[i]==1){optlistdisplay+=optlist[i]+', '}};
+ var inputs=z.z('input');
+ for(var i=0;i<inputs.length;i++){var e=inputs[i];
+  if(e.nodeName=="INPUT"){e.setAttribute('value',e.value)}
+ }
+ var textareas=z.z('textarea');
+ for(var i=0;i<textareas.length;i++){var e=textareas[i];
+  if(e.nodeName=="TEXTAREA"){e.innerHTML=e.value}
+ }
+ var selects=z.z('select');
+ for(var i=0;i<selects.length;i++){var e=selects[i];
+  if(e.nodeName=="SELECT"){
+   var o = e.options;
+   for(var j=0;j<o.length;j++){
+    if(o[j].value==e.value){
+     o[j].setAttribute('selected','selected');
+    }else{
+     o[j].removeAttribute('selected');
+    };
+   };
+  }
+ }
  z.h('#decode');
  z.h('#buttons');
  z.h('#optionsbutton');
  z.html('#optionstext',optlistdisplay);
  z.s('#optionstext');
- print();
+ var newWindow=window.open();
+ newWindow.document.write(z.html('#form')+'<script>print()<\/script>')
  z.s('#decode');
  z.s('#buttons');
  z.s('#optionsbutton');
  z.h('#optionstext');
+}
+function sendemail(){
+ z.z('#emaila')[0].href='mailto:?subject=Scope&body='+z.v('#file');
+ z.z('#emaila')[0].click();
 }
 </script>
 </html>
