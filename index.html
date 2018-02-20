@@ -266,7 +266,7 @@ function goPrint(){
  z.html('#optionstext',optlistdisplay);
  z.s('#optionstext');
  var newWindow=window.open();
- newWindow.document.write(z.html('#form')+'<script>print()<\/script>')
+ newWindow.document.write('<title>'+z.v('#file')+'<\/title>'+z.html('#form')+'<script>print()<\/script>')
  z.s('#decode');
  z.s('#buttons');
  z.s('#optionsbutton');
