@@ -95,12 +95,11 @@ RR <input type="number" style="width:3em">
 <tr><td colspan=3>Options:</td></tr>
 <tr><td colspan=3><button id="optionsbutton" style="width:100%" onclick='showoptions();return false;'>Options</button><div id="optionstext" style="display:none"></div></td></tr>
 <tr id="buttons">
-<td><button onclick="window.open('https://db.tt/1ZA3dKjt')">Dropbox</button></td>
+<td><button onclick="rld();return false;">Reset</button></td>
 <td><button onclick="sendemail();return false;">email</button><a id="emaila"></a></td>
-<td><input type='button' onclick='goPrint()' value='Print'></td>
+<td><button onclick="goPrint();">Print</button></td>
 </tr>
 </table><center>&copy; 2017 MAKA Ltd All Rights Reserved</center></form>
-<button id="rld" onclick="rld();">Reset</button>
 <div id="optionlist" style="display:none">
  <input id="optionsvalue" style="display:none">
  <table id="options"></table>
@@ -207,7 +206,6 @@ function options(){
 };
 options();
 function saveoptions(){
- z.s('#rld');
  var optlistchecked='';
  for(var i=0;i<optlist.length;i++){
   if(document.getElementById('opt'+i).style.background=='yellow'){
@@ -222,7 +220,6 @@ function saveoptions(){
  z.s('#form');
 }
 function showoptions(){
- z.h('#rld');
  var v=z.v('#optionsvalue');
  if(v){
   var v=toBin(v,optlist);
@@ -265,7 +262,6 @@ function goPrint(){
  z.h('#decode');
  z.h('#buttons');
  z.h('#optionsbutton');
- z.h('#rld');
  z.html('#optionstext',optlistdisplay);
  z.s('#optionstext');
  var newWindow=window.open();
@@ -273,7 +269,6 @@ function goPrint(){
  z.s('#decode');
  z.s('#buttons');
  z.s('#optionsbutton');
- z.s('#rld');
  z.h('#optionstext');
 };
 function sendemail(){
@@ -281,13 +276,22 @@ function sendemail(){
  z.z('#emaila')[0].click();
 };
 function rld(){
- z.z('#form')[0].reset();
- var options=z.z('#options')[0];
- for(var i=0;i<options.children.length;i++){
-  z.child('#options',[i,0,0]).style.background='';
-  z.child('#options',[i,1,0]).style.background='';
-  z.child('#options',[i,2,0]).style.background='';
- };
+ var tmp=z.z('input');
+ for(var i=0;i<tmp.length;i++){
+  tmp[i].value='';
+ }
+ tmp=z.z('textarea');
+ for(var i=0;i<tmp.length;i++){
+  tmp[i].value='';
+ }
+ tmp=z.z('select');
+ for(var i=0;i<tmp.length;i++){
+  tmp[i].value='';
+ }
+ tmp=z.z('button');
+ for(var i=0;i<tmp.length;i++){
+  tmp[i].style.background='';
+ }
  z.v('#optionsvalue',' ');
 };
 </script>
