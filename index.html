@@ -97,7 +97,7 @@ RR <input type="number" style="width:3em">
 <tr id="buttons">
 <td><button onclick="rld();return false;">Reset</button></td>
 <td><button onclick="sendemail();return false;">email</button><a id="emaila"></a></td>
-<td><button onclick="goPrint();">Print</button></td>
+<td><button onclick="goPrint();return false;">Print</button></td>
 </tr>
 </table><center>&copy; 2017 MAKA Ltd All Rights Reserved</center></form>
 <div id="optionlist" style="display:none">
@@ -193,11 +193,9 @@ function options(){
     tdc++;
     var td=z.c('td');
     var button=z.c('button');
-    button.id='opt'+i;
-    button.style.width='100%';
     button.style.height='40px';
     button.onclick=function(){this.style.background=this.style.background==''?'yellow':''};
-    z.html(button,optlist[i]);
+    z.txt(button,optlist[i]);
     z.a(tr,z.a(td,button));
     if(tdc==0||i==optlist.length-1){
       z.a(table,tr);
@@ -206,38 +204,21 @@ function options(){
 };
 options();
 function saveoptions(){
- var optlistchecked='';
- for(var i=0;i<optlist.length;i++){
-  if(document.getElementById('opt'+i).style.background=='yellow'){
-   optlistchecked+='1';
-  }else{
-   optlistchecked+='0';
-  }
- }
- var val=parseInt(optlistchecked,2);
- z.v('#optionsvalue',val);
  z.h('#optionlist');
  z.s('#form');
 }
 function showoptions(){
- var v=z.v('#optionsvalue');
- if(v){
-  var v=toBin(v,optlist);
-  for(var i=0;i<v.length;i++){
-   if(v.toString()[i]==1){
-    z.z('#opt'+i)[0].style.background='yellow';
-   }
-  }
- }
  z.h('#form');
  z.s('#optionlist');
 }
-function toBin(v,n){v=Number(v).toString(2);while(v.length<n.length){v='0'+v}return v}
 function goPrint(){
- var optlistdisplay='';
- var ov=z.v('#optionsvalue');
- ov=toBin(ov,optlist);
- for(var i=0;i<ov.length;i++){if(ov[i]==1){optlistdisplay+=optlist[i]+', '}};
+ var optlistdisplay='',
+ tmp=z.z('button');
+ for(var i=0;i<tmp.length;i++){
+  if(tmp[i].style.background=='yellow'){
+   optlistdisplay+=tmp[i].textContent+', ';
+  }
+ }
  var inputs=z.z('input');
  for(var i=0;i<inputs.length;i++){var e=inputs[i];
   if(e.nodeName=="INPUT"){e.setAttribute('value',e.value)}
@@ -292,7 +273,6 @@ function rld(){
  for(var i=0;i<tmp.length;i++){
   tmp[i].style.background='';
  }
- z.v('#optionsvalue',' ');
 };
 </script>
 </html>
