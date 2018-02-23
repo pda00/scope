@@ -7,6 +7,7 @@
 table{text-align:center;width:100%}
 input,button{width:100%}
 textarea{height:5em;width:100%}
+p{width:100%;margin:0;border-style:solid;border-width:thin;text-align:left}
 </style>
 <table>
 <tr><td colspan=3>File # <input id="file" style="width:15em"></td></tr>
@@ -88,13 +89,13 @@ RR <input type="number" style="width:3em">
 <td>R Bumper<br><input></td>
 <td>RR Light<br><input></td>
 </tr>
-<tr><td colspan=3>UPD:<br><textarea></textarea></td></tr>
-<tr><td colspan=3>Additional Notes:<br><textarea></textarea></td></tr>
-<tr><td colspan=3>Damage noted to:<br><textarea></textarea></td></tr>
-<tr><td colspan=3>AM Parts:<br><textarea></textarea></td></tr>
+<tr><td colspan=3>UPD:<br><p></p></td></tr>
+<tr><td colspan=3>Additional Notes:<br><p></p></td></tr>
+<tr><td colspan=3>Damage noted to:<br><p></p></td></tr>
+<tr><td colspan=3>AM Parts:<br><p></p></td></tr>
 <tr><td colspan=3>Options:</td></tr>
 <tr><td colspan=3><button id="optionsbutton" style="width:100%" onclick='showoptions();return false;'>Options</button>
-<textarea id="optionstext" style="display:none"></textarea></td></tr>
+<p id="optionstext" style="display:none"></p></td></tr>
 <tr id="buttons">
 <td><button onclick="rld();return false;">Reset</button></td>
 <td><button onclick="sendemail();return false;">email</button><a id="emaila"></a></td>
@@ -130,15 +131,6 @@ var z=(function(z){
  };
  z.c=function(e){return document.createElement(e)};
  z.a=function(p,e){z.z(p)[0].appendChild(e);return p};
- z.child=function(e,c){
-  e=z.z(e)[0];
-  if(Array.isArray(c)){
-   e=e.children[c[0]];
-   var i=1;
-   while(i<c.length){e=e.children[c[i++]];};
-  }else{e=e.children[c]}
-  return e;
- };
  return z;
 }(z||{}));
 var table=z.z('#options')[0];
@@ -224,10 +216,6 @@ function goPrint(){
  for(var i=0;i<inputs.length;i++){var e=inputs[i];
   if(e.nodeName=="INPUT"){e.setAttribute('value',e.value)}
  }
- var textareas=z.z('textarea');
- for(var i=0;i<textareas.length;i++){var e=textareas[i];
-  if(e.nodeName=="TEXTAREA"){e.innerHTML=e.value}
- }
  var selects=z.z('select');
  for(var i=0;i<selects.length;i++){var e=selects[i];
   if(e.nodeName=="SELECT"){
@@ -262,10 +250,6 @@ function rld(){
  for(var i=0;i<tmp.length;i++){
   tmp[i].value='';
  }
- tmp=z.z('textarea');
- for(var i=0;i<tmp.length;i++){
-  tmp[i].value='';
- }
  tmp=z.z('select');
  for(var i=0;i<tmp.length;i++){
   tmp[i].value='';
@@ -275,5 +259,9 @@ function rld(){
   tmp[i].style.background='';
  }
 };
+
+for(var i=0;i<z.z('p').length;i++){
+ z.z('p')[i].contentEditable=true;
+}
 </script>
 </html>
