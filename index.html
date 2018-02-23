@@ -93,18 +93,19 @@ RR <input type="number" style="width:3em">
 <tr><td colspan=3>Damage noted to:<br><textarea></textarea></td></tr>
 <tr><td colspan=3>AM Parts:<br><textarea></textarea></td></tr>
 <tr><td colspan=3>Options:</td></tr>
-<tr><td colspan=3><button id="optionsbutton" style="width:100%" onclick='showoptions();return false;'>Options</button><div id="optionstext" style="display:none"></div></td></tr>
+<tr><td colspan=3><button id="optionsbutton" style="width:100%" onclick='showoptions();return false;'>Options</button>
+<textarea id="optionstext" style="display:none"></textarea></td></tr>
 <tr id="buttons">
 <td><button onclick="rld();return false;">Reset</button></td>
 <td><button onclick="sendemail();return false;">email</button><a id="emaila"></a></td>
 <td><button onclick="goPrint();return false;">Print</button></td>
 </tr>
-</table><center>&copy; 2017 MAKA Ltd All Rights Reserved</center></form>
+</table><center>&copy; 2018 MAKA Ltd All Rights Reserved</center></form>
 <div id="optionlist" style="display:none">
  <input id="optionsvalue" style="display:none">
  <table id="options"></table>
  <button onclick="saveoptions();return false;">Save Options</button>
- <center>&copy; 2017 MAKA Ltd All Rights Reserved</center>
+ <center>&copy; 2018 MAKA Ltd All Rights Reserved</center>
 </div>
 <script>
 var z=(function(z){
@@ -243,7 +244,7 @@ function goPrint(){
  z.h('#decode');
  z.h('#buttons');
  z.h('#optionsbutton');
- z.html('#optionstext',optlistdisplay);
+ z.txt('#optionstext',optlistdisplay);
  z.s('#optionstext');
  var newWindow=window.open();
  newWindow.document.write('<title>'+z.v('#file')+'_scope<\/title>'+z.html('#form')+'<script>print()<\/script>')
