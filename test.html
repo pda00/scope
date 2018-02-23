@@ -1,11 +1,280 @@
-<body onload="t2()">
-<div id="div"></div>
-<iframe id="i" src="https://script.google.com/macros/s/AKfycbxzIpjWzwpNHhSnRCSQBCKxpauuZ8_VqjC1pyBZEFOn3RHBc6nC/exec" style="width:100%;height:100%"></iframe>
-</body>
+<!DOCTYPE HTML>
+<html>
+<title>scope</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<form  id='form'>
+<style>
+input,textarea,select,option,td{font-size:20px}
+table{text-align:center;width:100%}
+input,button{width:100%}
+textarea{height:5em;width:100%}
+</style>
+<table>
+<tr><td colspan=3>File # <input id="file" style="width:15em"></td></tr>
+<tr><td colspan=3>Owner email: <input type='email' style='width:75%'></td></tr>
+<tr><td colspan=3>Shop email: <input type='email' style='width:75%'></td></tr>
+<tr>
+<td>Owner present? <select><option></option><option value=1>Yes</option><option value=0>No</option></select></td>
+<td>Inspected at: <select><option></option><option value="o">Owner's Home</option><option value="r">Repair Facility</option></select></td>
+<td>Shop of Choice? <select><option></option><option value=1>Yes</option><option value=0>No</option></select></td>
+</tr>
+<tr><td colspan=3>SOC Name (blank if na): <input></tr>
+<tr>
+<td>Year<br><input type='number'></td>
+<td>Make<br><input></td>
+<td>Model<br><input></td>
+</tr>
+<tr>
+<td colspan=2>VIN <button id="decode" style="width:5em" onclick="window.open('https://www.decodethis.com/vin/'+z.v('#vin'));return false">Decode</button><br><input id='vin' class='d'><td>Prod Date<br><input id='proddate' type='month' class='d'></td>
+</tr><tr>
+<td>Lic #<br><input></td>
+<td>Lic State<br><input></td>
+<td>Lic Exp<br><input type='month'></td>
+</tr><tr>
+<td>Int Color<br><input></td>
+<td>Ext Color<br><input></td>
+<td>Miles<br><input type="number"></td>
+</tr>
+<tr><td colspan="3"><table><tr>
+<td>Tires:</td><td>
+LF <input type="number" style="width:3em">
+LR <input type="number" style="width:3em">
+</td></tr>
+<tr><td>(32nds)<td>
+RF <input type="number" style="width:3em">
+RR <input type="number" style="width:3em">
+</td></tr>
+<tr>
+<td>Tire Type: <input></td>
+<td>Tire Size: <input></td>
+</tr></table>
+</td></tr>
+<tr>
+<td>Interior<br><select><option></option><option>Poor</option><option>Average</option><option>Above Avg</option></select></td>
+<td>Exterior<br><select><option></option><option>Poor</option><option>Average</option><option>Above Avg</option></select></td>
+<td>Engine<br><select><option></option><option>Poor</option><option>Average</option><option>Above Avg</option></select></td>
+</tr>
+<tr>
+<td>LF Light<br><input></td>
+<td>F Bumper<br><input></td>
+<td>RF Light<br><input></td>
+</tr>
+<tr>
+<td>L Fender<br><input></td>
+<td>Hood<br><input></td>
+<td>R Fender<br><input></td>
+</tr>
+<tr>
+<td>LF Door<br><input></td>
+<td>Windshield<br><input></td>
+<td>RF Door<br><input></td>
+</tr>
+<tr>
+<td>LR Door<br><input></td>
+<td>Roof<br><input></td>
+<td>RR Door<br><input></td>
+</tr>
+<tr>
+<td>L Quarter<br><input></td>
+<td>Deck Lid<br><input></td>
+<td>R Quarter<br><input></td>
+</tr>
+<tr>
+<td>L Rail<br><input></td>
+<td>Spoiler<br><input></td>
+<td>R Rail<br><input></td>
+</tr>
+<tr>
+<td>LR Light<br><input></td>
+<td>R Bumper<br><input></td>
+<td>RR Light<br><input></td>
+</tr>
+<tr><td colspan=3>UPD:<br><textarea></textarea></td></tr>
+<tr><td colspan=3>Additional Notes:<br><textarea></textarea></td></tr>
+<tr><td colspan=3>Damage noted to:<br><textarea></textarea></td></tr>
+<tr><td colspan=3>AM Parts:<br><textarea></textarea></td></tr>
+<tr><td colspan=3>Options:</td></tr>
+<tr><td colspan=3><button id="optionsbutton" style="width:100%" onclick='showoptions();return false;'>Options</button>
+<textarea id="optionstext" style="display:none"></textarea></td></tr>
+<tr id="buttons">
+<td><button onclick="rld();return false;">Reset</button></td>
+<td><button onclick="sendemail();return false;">email</button><a id="emaila"></a></td>
+<td><button onclick="goPrint();return false;">Print</button></td>
+</tr>
+</table><center>&copy; 2018 MAKA Ltd All Rights Reserved</center></form>
+<div id="optionlist" style="display:none">
+ <input id="optionsvalue" style="display:none">
+ <table id="options"></table>
+ <button onclick="saveoptions();return false;">Save Options</button>
+ <center>&copy; 2018 MAKA Ltd All Rights Reserved</center>
+</div>
 <script>
-  function t2(){
-    var t=document.getElementById('i').contentDocument;
-    document.getElementById('div').textContent=t.getElementById('t').textContent;
+var z=(function(z){
+ z.z=function(z){if(z.tagName){return [z]};return document.querySelectorAll(z);};
+ z.each=function(e,it){e=z.z(e);for(var i=0;i<e.length;i++){it(e[i],i,e);}};
+ z.h=function(e){z.each(e,function(e){e.style.display='none'});};
+ z.s=function(e){z.each(e,function(e){e.style.display=''});};
+ z.html=function(e,html){
+  e=z.z(e)[0];
+  if(!html){return e.innerHTML}
+  return e.innerHTML=html;
+ };
+ z.txt=function(e,t){
+  e=z.z(e)[0];
+  if(!t){return e.textContent}
+  return e.textContent=t;
+ };
+ z.v=function(e,v){
+  e=z.z(e)[0];
+  if(!v){return e.value}
+  return e.value=v;
+ };
+ z.c=function(e){return document.createElement(e)};
+ z.a=function(p,e){z.z(p)[0].appendChild(e);return p};
+ z.child=function(e,c){
+  e=z.z(e)[0];
+  if(Array.isArray(c)){
+   e=e.children[c[0]];
+   var i=1;
+   while(i<c.length){e=e.children[c[i++]];};
+  }else{e=e.children[c]}
+  return e;
+ };
+ return z;
+}(z||{}));
+var table=z.z('#options')[0];
+var optlist=[
+ 'fog lights',
+ 'spoiler',
+ 'passenger airbag',
+ 'aluminum/alloy wheels',
+ 'chrome wheels',
+ 'am/fm stereo',
+ 'sunroof',
+ 'moonroof',
+ 'luggage rack',
+ 'cruise control',
+ 'remote start',
+ 'power locks',
+ 'power mirrors',
+ 'power driver seat',
+ 'power passenger seat',
+ 'cloth seats',
+ 'leather seats',
+ 'bucket seats',
+ 'heated driver seat',
+ 'heated psngr seat',
+ 'third row seat',
+ 'air conditioner',
+ 'dual ac',
+ 'climate control',
+ 'rear defogger',
+ 'intermittent wipers',
+ 'tilt wheel',
+ 'telescopic wheel',
+ 'cruise control',
+ 'keyless entry',
+ 'console/storage',
+ 'overhead console',
+ 'remote start',
+ 'cd player',
+ 'premium radio',
+ 'satellite radio',
+ 'steering wheel touch',
+ 'aux connection',
+ 'cb radio',
+];
+function options(){
+  var tdc=0;
+  for(var i=0;i<optlist.length;i++){
+    if(tdc==0){
+      var tr=z.c('tr');
+    }else if(tdc==2){
+      tdc=-1;
+    };
+    tdc++;
+    var td=z.c('td');
+    var button=z.c('button');
+    button.style.height='40px';
+    button.onclick=function(){this.style.background=this.style.background==''?'yellow':''};
+    z.txt(button,optlist[i]);
+    z.a(tr,z.a(td,button));
+    if(tdc==0||i==optlist.length-1){
+      z.a(table,tr);
+    };
   };
-  
+};
+options();
+function saveoptions(){
+ z.h('#optionlist');
+ z.s('#form');
+}
+function showoptions(){
+ z.h('#form');
+ z.s('#optionlist');
+}
+function goPrint(){
+ var optlistdisplay='',
+ tmp=z.z('button');
+ for(var i=0;i<tmp.length;i++){
+  if(tmp[i].style.background=='yellow'){
+   optlistdisplay+=tmp[i].textContent+', ';
+  }
+ }
+ var inputs=z.z('input');
+ for(var i=0;i<inputs.length;i++){var e=inputs[i];
+  if(e.nodeName=="INPUT"){e.setAttribute('value',e.value)}
+ }
+ var textareas=z.z('textarea');
+ for(var i=0;i<textareas.length;i++){var e=textareas[i];
+  if(e.nodeName=="TEXTAREA"){e.innerHTML=e.value}
+ }
+ var selects=z.z('select');
+ for(var i=0;i<selects.length;i++){var e=selects[i];
+  if(e.nodeName=="SELECT"){
+   var o = e.options;
+   for(var j=0;j<o.length;j++){
+    if(o[j].value==e.value){
+     o[j].setAttribute('selected','selected');
+    }else{
+     o[j].removeAttribute('selected');
+    };
+   };
+  }
+ }
+ z.h('#decode');
+ z.h('#buttons');
+ z.h('#optionsbutton');
+ z.txt('#optionstext',optlistdisplay);
+ z.s('#optionstext');
+ var newWindow=window.open();
+ newWindow.document.write('<title>'+z.v('#file')+'_scope<\/title>'+z.html('#form')+'<script>print()<\/script>')
+ z.s('#decode');
+ z.s('#buttons');
+ z.s('#optionsbutton');
+ z.h('#optionstext');
+};
+function sendemail(){
+ z.z('#emaila')[0].href='mailto:?subject=Scope&body='+z.v('#file');
+ z.z('#emaila')[0].click();
+};
+function rld(){
+ var tmp=z.z('input');
+ for(var i=0;i<tmp.length;i++){
+  tmp[i].value='';
+ }
+ tmp=z.z('textarea');
+ for(var i=0;i<tmp.length;i++){
+  tmp[i].value='';
+ }
+ tmp=z.z('select');
+ for(var i=0;i<tmp.length;i++){
+  tmp[i].value='';
+ }
+ tmp=z.z('button');
+ for(var i=0;i<tmp.length;i++){
+  tmp[i].style.background='';
+ }
+};
 </script>
+</html>
