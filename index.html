@@ -6,7 +6,6 @@
 <style>
 table{text-align:center;width:100%}
 input,button{width:100%}
-textarea{height:5em;width:100%}
 p{width:100%;margin:0;border-style:solid;border-width:thin;text-align:left}
 </style>
 <table>
@@ -246,22 +245,11 @@ function sendemail(){
  z.z('#emaila')[0].click();
 };
 function rld(){
- var tmp=z.z('input');
- for(var i=0;i<tmp.length;i++){
-  tmp[i].value='';
- }
- tmp=z.z('select');
- for(var i=0;i<tmp.length;i++){
-  tmp[i].value='';
- }
- tmp=z.z('button');
- for(var i=0;i<tmp.length;i++){
-  tmp[i].style.background='';
- }
+ z.each('input',function(e){e.value=''});
+ z.each('select',function(e){e.value=''});
+ z.each('p',function(e){e.textContent=''});
+ z.each('button',function(e){e.style.background=''});
 };
-
-for(var i=0;i<z.z('p').length;i++){
- z.z('p')[i].contentEditable=true;
-}
+z.each('p',function(e){e.contentEditable=true});
 </script>
 </html>
