@@ -108,6 +108,7 @@ RR <input type="number" style="width:3em">
  <center>&copy; 2018 MAKA Ltd All Rights Reserved</center>
 </div>
 <script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');};
 var z=(function(z){
  z.z=function(z){if(z.tagName){return [z]};return document.querySelectorAll(z);};
  z.each=function(e,it){e=z.z(e);for(var i=0;i<e.length;i++){it(e[i],i,e);}};
