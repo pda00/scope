@@ -2,7 +2,7 @@ var v='0';
 self.addEventListener('install',function(event){
   event.waitUntil(
     caches.open(v).then(function(cache){
-      return cache.add('/sw/');
+      return cache.add('/scope/');
     })
   )
 });
