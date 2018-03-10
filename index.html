@@ -93,7 +93,7 @@ RR <input type="number" style="width:3em">
 <tr><td colspan=3>Damage noted to:<br><p></p></td></tr>
 <tr><td colspan=3>AM Parts:<br><p></p></td></tr>
 <tr><td colspan=3>Options:</td></tr>
-<tr><td colspan=3><button id="optionsbutton" style="width:100%" onclick='showoptions();return false;'>Options</button>
+<tr><td colspan=3><button id="optionsbutton" style="width:100%" onclick='opts();return false;'>Options</button>
 <p id="optionstext" style="display:none"></p></td></tr>
 <tr id="buttons">
 <td><button onclick="rld();return false;">Reset</button></td>
@@ -102,18 +102,30 @@ RR <input type="number" style="width:3em">
 </tr>
 </table><center>&copy; 2018 MAKA Ltd All Rights Reserved</center></form>
 <div id="optionlist" style="display:none">
- <input id="optionsvalue" style="display:none">
  <table id="options"></table>
- <button onclick="saveoptions();return false;">Save Options</button>
+ <button onclick="opts();return false;">Save Options</button>
  <center>&copy; 2018 MAKA Ltd All Rights Reserved</center>
 </div>
 <script>
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');};
 var z=(function(z){
- z.z=function(z){if(z.tagName){return [z]};return document.querySelectorAll(z);};
+ z.z=function(z){
+   if(z.tagName){return [z]};
+   if(typeof z=='string'){return document.querySelectorAll(z)};
+   return z;
+ };
  z.each=function(e,it){e=z.z(e);for(var i=0;i<e.length;i++){it(e[i],i,e);}};
  z.h=function(e){z.each(e,function(e){e.style.display='none'});};
  z.s=function(e){z.each(e,function(e){e.style.display=''});};
+ z.t=function(e){
+   z.each(e,function(e){
+     if(e.style.display==''){
+       z.h(e)
+     }else{
+       z.s(e)
+     }
+   })
+ };
  z.html=function(e,html){
   e=z.z(e)[0];
   if(!html){return e.innerHTML}
@@ -133,7 +145,6 @@ var z=(function(z){
  z.a=function(p,e){z.z(p)[0].appendChild(e);return p};
  return z;
 }(z||{}));
-var table=z.z('#options')[0];
 var optlist=[
  'fog lights',
  'spoiler',
@@ -175,7 +186,7 @@ var optlist=[
  'aux connection',
  'cb radio',
 ];
-function options(){
+(function(){
   var tdc=0;
   for(var i=0;i<optlist.length;i++){
     if(tdc==0){
@@ -191,56 +202,45 @@ function options(){
     z.txt(button,optlist[i]);
     z.a(tr,z.a(td,button));
     if(tdc==0||i==optlist.length-1){
-      z.a(table,tr);
+      z.a('#options',tr);
     };
   };
-};
-options();
-function saveoptions(){
- z.h('#optionlist');
- z.s('#form');
-}
-function showoptions(){
- z.h('#form');
- z.s('#optionlist');
+})();
+function opts(){
+  z.t('#optionlist');
+  z.t('#form');
 }
 function goPrint(){
- var optlistdisplay='',
- tmp=z.z('button');
- for(var i=0;i<tmp.length;i++){
-  if(tmp[i].style.background=='yellow'){
-   optlistdisplay+=tmp[i].textContent+', ';
-  }
- }
- var inputs=z.z('input');
- for(var i=0;i<inputs.length;i++){var e=inputs[i];
-  if(e.nodeName=="INPUT"){e.setAttribute('value',e.value)}
- }
- var selects=z.z('select');
- for(var i=0;i<selects.length;i++){var e=selects[i];
-  if(e.nodeName=="SELECT"){
-   var o = e.options;
-   for(var j=0;j<o.length;j++){
-    if(o[j].value==e.value){
-     o[j].setAttribute('selected','selected');
-    }else{
-     o[j].removeAttribute('selected');
-    };
-   };
-  }
- }
- z.h('#decode');
- z.h('#buttons');
- z.h('#optionsbutton');
- z.txt('#optionstext',optlistdisplay);
- z.s('#optionstext');
+ var opts='';
+ z.each('button',function(e){
+   if(e.style.background=='yellow'){
+     opts+=z.txt(e)+', ';
+   }
+ });
+ z.txt('#optionstext',opts);
+ z.each('input',function(e){
+   e.setAttribute('value',e.value);
+ });
+ z.each('select',function(e){
+   z.each(e.options,function(f){
+     if(f.value==e.value){
+       f.setAttribute('selected','selected');
+     }else{
+       f.removeAttribute('selected');
+     }
+   })
+ });
+ tp();
  var newWindow=window.open();
  newWindow.document.write('<title>'+z.v('#file')+'_scope<\/title>'+z.html('#form')+'<script>print()<\/script>')
- z.s('#decode');
- z.s('#buttons');
- z.s('#optionsbutton');
- z.h('#optionstext');
+ tp();
 };
+function tp(){
+ z.t('#decode');
+ z.t('#buttons');
+ z.t('#optionsbutton');
+ z.t('#optionstext');
+}
 function sendemail(){
  z.z('#emaila')[0].href='mailto:?subject=Scope&body='+z.v('#file');
  z.z('#emaila')[0].click();
