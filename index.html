@@ -8,7 +8,7 @@ table{text-align:center;width:100%}
 input,button{width:100%}
 p{width:100%;margin:0;border-style:solid;border-width:thin;text-align:left}
 </style>
-<table>
+<table id="test">
 <tr><td colspan=3>File # <input id="file" style="width:15em"></td></tr>
 <tr><td colspan=3>Owner email: <input type='email' style='width:75%'></td></tr>
 <tr><td colspan=3>Shop email: <input type='email' style='width:75%'></td></tr>
@@ -54,39 +54,39 @@ RR <input type="number" style="width:3em">
 <td>Engine<br><select><option></option><option>Poor</option><option>Average</option><option>Above Avg</option></select></td>
 </tr>
 <tr>
-<td>LF Light<br><input></td>
-<td>F Bumper<br><input></td>
-<td>RF Light<br><input></td>
+<td class="t">LF Light<br><input></td>
+<td class="t">F Bumper<br><input></td>
+<td class="t">RF Light<br><input></td>
 </tr>
 <tr>
-<td>L Fender<br><input></td>
-<td>Hood<br><input></td>
-<td>R Fender<br><input></td>
+<td class="t">L Fender<br><input></td>
+<td class="t">Hood<br><input></td>
+<td class="t">R Fender<br><input></td>
 </tr>
 <tr>
-<td>LF Door<br><input></td>
-<td>Windshield<br><input></td>
-<td>RF Door<br><input></td>
+<td class="t">LF Door<br><input></td>
+<td class="t">Windshield<br><input></td>
+<td class="t">RF Door<br><input></td>
 </tr>
 <tr>
-<td>LR Door<br><input></td>
-<td>Roof<br><input></td>
-<td>RR Door<br><input></td>
+<td class="t">LR Door<br><input></td>
+<td class="t">Roof<br><input></td>
+<td class="t">RR Door<br><input></td>
 </tr>
 <tr>
-<td>L Quarter<br><input></td>
-<td>Deck Lid<br><input></td>
-<td>R Quarter<br><input></td>
+<td class="t">L Quarter<br><input></td>
+<td class="t">Deck Lid<br><input></td>
+<td class="t">R Quarter<br><input></td>
 </tr>
 <tr>
-<td>L Rail<br><input></td>
-<td>Spoiler<br><input></td>
-<td>R Rail<br><input></td>
+<td class="t">L Rail<br><input></td>
+<td class="t">Spoiler<br><input></td>
+<td class="t">R Rail<br><input></td>
 </tr>
 <tr>
-<td>LR Light<br><input></td>
-<td>R Bumper<br><input></td>
-<td>RR Light<br><input></td>
+<td class="t">LR Light<br><input></td>
+<td class="t">R Bumper<br><input></td>
+<td class="t">RR Light<br><input></td>
 </tr>
 <tr><td colspan=3>UPD:<br><p></p></td></tr>
 <tr><td colspan=3>Additional Notes:<br><p></p></td></tr>
@@ -108,44 +108,25 @@ RR <input type="number" style="width:3em">
 </div>
 <script>
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');};
-var z=(function(z){
- z.z=function(z){
-   if(z.tagName){return [z]};
-   if(typeof z=='string'){return document.querySelectorAll(z)};
-   return z;
- };
- z.each=function(e,it){e=z.z(e);for(var i=0;i<e.length;i++){it(e[i],i,e);}};
- z.h=function(e){z.each(e,function(e){e.style.display='none'});};
- z.s=function(e){z.each(e,function(e){e.style.display=''});};
- z.t=function(e){
-   z.each(e,function(e){
-     if(e.style.display==''){
-       z.h(e)
-     }else{
-       z.s(e)
-     }
-   })
- };
- z.html=function(e,html){
-  e=z.z(e)[0];
-  if(!html){return e.innerHTML}
-  return e.innerHTML=html;
- };
- z.txt=function(e,t){
-  e=z.z(e)[0];
-  if(!t){return e.textContent}
-  return e.textContent=t;
- };
- z.v=function(e,v){
-  e=z.z(e)[0];
-  if(!v){return e.value}
-  return e.value=v;
- };
- z.c=function(e){return document.createElement(e)};
- z.a=function(p,e){z.z(p)[0].appendChild(e);return p};
- return z;
-}(z||{}));
-var optlist=[
+var z=(y=>{return {
+  d:document,
+  z:(e,n)=>{
+    if(e.tagName)e=[e];
+    if(typeof e=='string')e=z.d.querySelectorAll(e);
+    e=n==''?e[n]:e;
+    return e;
+  },
+  each:(e,it)=>{e=z.z(e);for(var i=0;i<e.length;i++){it(e[i],i,e)}},
+  h:e=>z.each(e,e=>e.style.display='none'),
+  s:e=>z.each(e,e=>e.style.display=''),
+  t:e=>z.each(e,e=>e.style.display==''?z.h(e):z.s(e)),
+  html:(e,html)=>html===undefined?z.z(e,0).innerHTML:z.z(e,0).innerHTML=html,
+  txt:(e,t)=>t===undefined?z.z(e,0).textContent:z.z(e,0).textContent=t,
+  v:(e,v)=>v===undefined?z.z(e,0).value:z.z(e,0).value=v,
+  c:e=>z.d.createElement(e),
+  a:(p,e)=>{z.z(p,0).appendChild(e);return p}
+}})(),
+optlist=[
  'fog lights',
  'spoiler',
  'passenger airbag',
@@ -185,8 +166,36 @@ var optlist=[
  'steering wheel touch',
  'aux connection',
  'cb radio',
-];
-(function(){
+],
+opts=y=>z.t('#optionlist,#form'),
+tp=y=>z.t('button,#decode,#optionsbutton,#optionstext'),
+sendemail=y=>{
+ z.z('#emaila',0).href='mailto:?subject=Scope&body='+z.v('#file');
+ z.z('#emaila',0).click();
+},
+rld=y=>{
+  z.each('input,select',e=>z.v(e,''));
+  z.each('p',e=>z.txt(e,''));
+  z.each('button',e=>e.style.background='');
+},
+goPrint=y=>{
+ var opts='';
+ z.each('button',e=>{
+   if(e.style.background=='yellow')opts+=z.txt(e)+', ';
+ });
+ z.txt('#optionstext',opts);
+ z.each('input',e=>e.setAttribute('value',z.v(e)));
+ z.each('select',e=>{
+   z.each(e.options,f=>{
+     z.v(f)==z.v(e)?f.setAttribute('selected','selected'):f.removeAttribute('selected');
+   })
+ });
+ tp();
+ var n=window.open();
+ n.document.write(`<title>${z.v('#file')}_scope<\/title>${z.html('#form')}<script>print()<\/script>`)
+ tp();
+};
+(y=>{
   var tdc=0;
   for(var i=0;i<optlist.length;i++){
     if(tdc==0){
@@ -195,8 +204,8 @@ var optlist=[
       tdc=-1;
     };
     tdc++;
-    var td=z.c('td');
-    var button=z.c('button');
+    var td=z.c('td'),
+    button=z.c('button');
     button.style.height='40px';
     button.onclick=function(){this.style.background=this.style.background==''?'yellow':''};
     z.txt(button,optlist[i]);
@@ -205,52 +214,26 @@ var optlist=[
       z.a('#options',tr);
     };
   };
+  z.each('p',e=>e.contentEditable=true);
+  z.each('.t',e=>{
+    var button=z.c('button');
+    z.txt(button,'talk');
+    button.onclick=function(){
+      var b=this,
+      recognition=new webkitSpeechRecognition();
+      recognition.continuous=false;
+      recognition.interimResults=false;
+      recognition.lang="en-US";
+      recognition.start();
+      recognition.onresult=e=>{
+        z.v(b.parentNode.children[1],e.results[0][0].transcript);
+        recognition.stop();
+      };
+      recognition.onerror=e=>recognition.stop();
+      return false;
+    };
+    z.a(e,button);
+  });
 })();
-function opts(){
-  z.t('#optionlist');
-  z.t('#form');
-}
-function goPrint(){
- var opts='';
- z.each('button',function(e){
-   if(e.style.background=='yellow'){
-     opts+=z.txt(e)+', ';
-   }
- });
- z.txt('#optionstext',opts);
- z.each('input',function(e){
-   e.setAttribute('value',e.value);
- });
- z.each('select',function(e){
-   z.each(e.options,function(f){
-     if(f.value==e.value){
-       f.setAttribute('selected','selected');
-     }else{
-       f.removeAttribute('selected');
-     }
-   })
- });
- tp();
- var newWindow=window.open();
- newWindow.document.write('<title>'+z.v('#file')+'_scope<\/title>'+z.html('#form')+'<script>print()<\/script>')
- tp();
-};
-function tp(){
- z.t('#decode');
- z.t('#buttons');
- z.t('#optionsbutton');
- z.t('#optionstext');
-}
-function sendemail(){
- z.z('#emaila')[0].href='mailto:?subject=Scope&body='+z.v('#file');
- z.z('#emaila')[0].click();
-};
-function rld(){
- z.each('input',function(e){e.value=''});
- z.each('select',function(e){e.value=''});
- z.each('p',function(e){e.textContent=''});
- z.each('button',function(e){e.style.background=''});
-};
-z.each('p',function(e){e.contentEditable=true});
 </script>
 </html>
