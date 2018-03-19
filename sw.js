@@ -1,4 +1,4 @@
-var v='2';
+var v='3';
 self.addEventListener('install',function(event){
   event.waitUntil(
     caches.open(v).then(function(cache){
