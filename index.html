@@ -9,22 +9,11 @@ input,button{width:100%}
 p{width:100%;margin:0;border-style:solid;border-width:thin;text-align:left}
 </style>
 <table id="test">
-<tr><td colspan=3>File # <input id="file" style="width:15em"></td></tr>
-<tr><td colspan=3>Owner email: <input type='email' style='width:75%'></td></tr>
-<tr><td colspan=3>Shop email: <input type='email' style='width:75%'></td></tr>
-<tr>
-<td>Owner present? <select><option></option><option value=1>Yes</option><option value=0>No</option></select></td>
-<td>Inspected at: <select><option></option><option value="o">Owner's Home</option><option value="r">Repair Facility</option></select></td>
-<td>Shop of Choice? <select><option></option><option value=1>Yes</option><option value=0>No</option></select></td>
-</tr>
-<tr><td colspan=3>SOC Name (blank if na): <input></tr>
-<tr>
-<td>Year<br><input type='number'></td>
-<td>Make<br><input></td>
-<td>Model<br><input></td>
+<tr><td colspan=3>File # <input id="file"   
+<!--"-->
 </tr>
 <tr>
-<td colspan=2>VIN <button id="decode" style="width:5em" onclick="window.open('https://www.decodethis.com/vin/'+z.v('#vin'));return false">Decode</button><br><input id='vin' class='d'><td>Prod Date<br><input id='proddate' type='month' class='d'></td>
+<td colspan=2>VIN <button style="width:5em" onclick="window.open('https://www.decodethis.com/vin/'+z.v('#vin'));return false">Decode</button><br><input id='vin' class='d'><td>Prod Date<br><input id='proddate' type='month' class='d'></td>
 </tr><tr>
 <td>Lic #<br><input></td>
 <td>Lic State<br><input></td>
@@ -54,48 +43,47 @@ RR <input type="number" style="width:3em">
 <td>Engine<br><select><option></option><option>Poor</option><option>Average</option><option>Above Avg</option></select></td>
 </tr>
 <tr>
-<td class="t">LF Light<br><input></td>
-<td class="t">F Bumper<br><input></td>
-<td class="t">RF Light<br><input></td>
+<td class="t"></td>
+<td class="t"></td>
+<td class="t"></td>
 </tr>
 <tr>
-<td class="t">L Fender<br><input></td>
-<td class="t">Hood<br><input></td>
-<td class="t">R Fender<br><input></td>
+<td class="t"></td>
+<td class="t"></td>
+<td class="t"></td>
 </tr>
 <tr>
-<td class="t">LF Door<br><input></td>
-<td class="t">Windshield<br><input></td>
-<td class="t">RF Door<br><input></td>
+<td class="t"></td>
+<td class="t"></td>
+<td class="t"></td>
 </tr>
 <tr>
-<td class="t">LR Door<br><input></td>
-<td class="t">Roof<br><input></td>
-<td class="t">RR Door<br><input></td>
+<td class="t"></td>
+<td class="t"></td>
+<td class="t"></td>
 </tr>
 <tr>
-<td class="t">L Quarter<br><input></td>
-<td class="t">Deck Lid<br><input></td>
-<td class="t">R Quarter<br><input></td>
+<td class="t"></td>
+<td class="t"></td>
+<td class="t"></td>
 </tr>
 <tr>
-<td class="t">L Rail<br><input></td>
-<td class="t">Spoiler<br><input></td>
-<td class="t">R Rail<br><input></td>
+<td class="t"></td>
+<td class="t"></td>
+<td class="t"></td>
 </tr>
 <tr>
-<td class="t">LR Light<br><input></td>
-<td class="t">R Bumper<br><input></td>
-<td class="t">RR Light<br><input></td>
+<td class="t"></td>
+<td class="t"></td>
+<td class="t"></td>
 </tr>
-<tr><td colspan=3>UPD:<br><p></p></td></tr>
-<tr><td colspan=3>Additional Notes:<br><p></p></td></tr>
-<tr><td colspan=3>Damage noted to:<br><p></p></td></tr>
-<tr><td colspan=3>AM Parts:<br><p></p></td></tr>
-<tr><td colspan=3>Options:</td></tr>
-<tr><td colspan=3><button id="optionsbutton" style="width:100%" onclick='opts();return false;'>Options</button>
-<p id="optionstext" style="display:none"></p></td></tr>
-<tr id="buttons">
+<tr><td class="p"></td></tr>
+<tr><td class="p"></td></tr>
+<tr><td class="p"></td></tr>
+<tr><td colspan=3>Options</td></tr>
+<tr><td colspan=3><button id="optsbutton" onclick='opts();return false;'>Options</button>
+<p id="optstext" style="display:none"></p></td></tr>
+<tr>
 <td><button onclick="rld();return false;">Reset</button></td>
 <td><button onclick="sendemail();return false;">email</button><a id="emaila"></a></td>
 <td><button onclick="goPrint();return false;">Print</button></td>
@@ -168,7 +156,7 @@ optlist=[
  'cb radio',
 ],
 opts=y=>z.t('#optionlist,#form'),
-tp=y=>z.t('button,#decode,#optionsbutton,#optionstext'),
+tp=y=>z.t('button,#optstext'),
 sendemail=y=>{
  z.z('#emaila',0).href='mailto:?subject=Scope&body='+z.v('#file');
  z.z('#emaila',0).click();
@@ -183,7 +171,7 @@ goPrint=y=>{
  z.each('button',e=>{
    if(e.style.background=='yellow')opts+=z.txt(e)+', ';
  });
- z.txt('#optionstext',opts);
+ z.txt('#optstext',opts);
  z.each('input',e=>e.setAttribute('value',z.v(e)));
  z.each('select',e=>{
    z.each(e.options,f=>{
@@ -196,44 +184,68 @@ goPrint=y=>{
  tp();
 };
 (y=>{
-  var tdc=0;
-  for(var i=0;i<optlist.length;i++){
+  var tdc=0,tr;
+  z.each(optlist,(e,i)=>{
     if(tdc==0){
-      var tr=z.c('tr');
+      tr=z.c('tr');
     }else if(tdc==2){
       tdc=-1;
     };
     tdc++;
-    var td=z.c('td'),
-    button=z.c('button');
+    var button=z.c('button');
     button.style.height='40px';
     button.onclick=function(){this.style.background=this.style.background==''?'yellow':''};
-    z.txt(button,optlist[i]);
-    z.a(tr,z.a(td,button));
+    z.txt(button,e);
+    z.a(tr,z.a(z.c('td'),button));
     if(tdc==0||i==optlist.length-1){
       z.a('#options',tr);
     };
-  };
-  z.each('p',e=>e.contentEditable=true);
-  z.each('.t',e=>{
-    var button=z.c('button');
-    z.txt(button,'talk');
-    button.onclick=function(){
-      var b=this,
-      recognition=new webkitSpeechRecognition();
-      recognition.continuous=false;
-      recognition.interimResults=false;
-      recognition.lang="en-US";
-      recognition.start();
-      recognition.onresult=e=>{
-        z.v(b.parentNode.children[1],e.results[0][0].transcript);
-        recognition.stop();
-      };
-      recognition.onerror=e=>recognition.stop();
-      return false;
-    };
-    z.a(e,button);
   });
+  var ps=[
+    'LF Light','F Bumper','RF Light',
+    'L Fender','Hood','R Fender',
+    'LF Door','Windshield','RF Door',
+    'LR Door','Roof','RR Door',
+    'L Quarter','Deck Lid','R Quarter',
+    'L Rail','Spoiler','R Rail',
+    'LR Light','R Bumper','RR Light'
+  ];
+  var spk=function(){
+    recognition=new webkitSpeechRecognition();
+    recognition.continuous=false;
+    recognition.interimResults=false;
+    recognition.lang="en-US";
+    recognition.start();
+    recognition.onresult=e=>{
+      z.txt(this.parentNode.children[0],e.results[0][0].transcript);
+      recognition.stop();
+    };
+    recognition.onerror=e=>recognition.stop();
+    return false;
+  };
+  z.each('.t',(e,i)=>{
+    z.txt(e,ps[i]);
+    z.a(e,z.c('p'));
+    var b=z.c('button');
+    z.txt(b,'talk');
+    b.onclick=spk;
+    z.a(e,b);
+  });
+  var ps=[
+    'Additional Notes',
+    'UPD',
+    'AM Parts',
+  ];
+  z.each('.p',(e,i)=>{
+    e.colSpan=3;
+    z.txt(e,ps[i]);
+    z.a(e,z.c('p'));
+    var b=z.c('button');
+    z.txt(b,'talk');
+    b.onclick=spk;
+    z.a(e,b);
+  });
+  z.each('p',e=>e.contentEditable=true);
 })();
 </script>
 </html>
