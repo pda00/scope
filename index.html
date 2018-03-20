@@ -9,11 +9,22 @@ input,button{width:100%}
 p{width:100%;margin:0;border-style:solid;border-width:thin;text-align:left}
 </style>
 <table id="test">
-<tr><td colspan=3>File # <input id="file"   
-<!--"-->
+<tr><td colspan=3>File # <input id="file" style="width:15em"></td></tr>
+<tr><td colspan=3>Owner email: <input type='email' style='width:75%'></td></tr>
+<tr><td colspan=3>Shop email: <input type='email' style='width:75%'></td></tr>
+<tr>
+<td>Owner present? <select><option></option><option>Yes</option><option>No</option></select></td>
+<td>Inspected at: <select><option></option><option>Owner's Home</option><option>Repair Facility</option></select></td>
+<td>Shop of Choice? <select><option></option><option>Yes</option><option>No</option></select></td>
+</tr>
+<tr><td colspan=3>SOC Name (blank if na): <input></tr>
+<tr>
+<td>Year<br><input id="year" type='number'></td>
+<td>Make<br><input id="make"></td>
+<td>Model<br><input id="model"></td>
 </tr>
 <tr>
-<td colspan=2>VIN <button style="width:5em" onclick="window.open('https://www.decodethis.com/vin/'+z.v('#vin'));return false">Decode</button><br><input id='vin' class='d'><td>Prod Date<br><input id='proddate' type='month' class='d'></td>
+<td colspan=2>VIN <button style="width:5em" onclick="dcd();return false">Decode</button><br><input id='vin' class='d'><td>Prod Date<br><input id='proddate' type='month' class='d'></td>
 </tr><tr>
 <td>Lic #<br><input></td>
 <td>Lic State<br><input></td>
@@ -156,6 +167,19 @@ optlist=[
  'cb radio',
 ],
 opts=y=>z.t('#optionlist,#form'),
+dcd=y=>{
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange=function(){
+    if (this.readyState == 4 && this.status == 200) {
+      var e=JSON.parse(this.responseText).Results[0];
+      z.v('#year',e.ModelYear);
+      z.v('#make',e.Make);
+      z.v('#model',e.Model);
+   }
+  };
+  xhttp.open("GET", "https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvalues/"+z.v('#vin')+"?format=json", true);
+  xhttp.send();
+},
 tp=y=>z.t('button,#optstext'),
 sendemail=y=>{
  z.z('#emaila',0).href='mailto:?subject=Scope&body='+z.v('#file');
