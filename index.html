@@ -168,17 +168,14 @@ optlist=[
 ],
 opts=y=>z.t('#optionlist,#form'),
 dcd=y=>{
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange=function(){
-    if (this.readyState == 4 && this.status == 200) {
-      var e=JSON.parse(this.responseText).Results[0];
-      z.v('#year',e.ModelYear);
-      z.v('#make',e.Make);
-      z.v('#model',e.Model);
-   }
-  };
-  xhttp.open("GET", "https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvalues/"+z.v('#vin')+"?format=json", true);
-  xhttp.send();
+  fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvalues/${z.v('#vin')}?format=json`)
+  .then(e=>e.json())
+  .then(e=>{
+    e=e.Results[0];
+    z.v('#year',e.ModelYear);
+    z.v('#make',e.Make);
+    z.v('#model',e.Model);
+  }).catch(e=>console.log(e))
 },
 tp=y=>z.t('button,#optstext'),
 sendemail=y=>{
