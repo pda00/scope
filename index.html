@@ -24,7 +24,7 @@ p{width:100%;margin:0;border-style:solid;border-width:thin;text-align:left}
 <td>Model<br><input id="model"></td>
 </tr>
 <tr>
-<td colspan=2>VIN <button style="width:5em" onclick="dcd();return false">Decode</button><br><input id='vin' class='d'><td>Prod Date<br><input id='proddate' type='month' class='d'></td>
+<td colspan=2><button style="width:5em" onclick="lkv();return false">Look up</button> VIN <button style="width:5em" onclick="dcd();return false">Decode</button><br><input id='vin' class='d'><td>Prod Date<br><input id='proddate' type='month' class='d'></td>
 </tr><tr>
 <td>Lic #<br><input></td>
 <td>Lic State<br><input></td>
@@ -167,6 +167,9 @@ optlist=[
  'cb radio',
 ],
 opts=y=>z.t('#optionlist,#form'),
+lkv=y=>{
+  window.open(`https://www.decodethis.com/vin/${z.v('#vin')}`);
+},
 dcd=y=>{
   fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvalues/${z.v('#vin')}?format=json`)
   .then(e=>e.json())
@@ -175,7 +178,7 @@ dcd=y=>{
     z.v('#year',e.ModelYear);
     z.v('#make',e.Make);
     z.v('#model',e.Model);
-  }).catch(e=>console.log(e))
+  }).catch(e=>alert(e));
 },
 tp=y=>z.t('button,#optstext'),
 sendemail=y=>{
