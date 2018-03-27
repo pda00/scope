@@ -99,6 +99,7 @@ RR <input type="number" style="width:3em">
 <td><button onclick="sendemail();return false;">email</button><a id="emaila"></a></td>
 <td><button onclick="goPrint();return false;">Print</button></td>
 </tr>
+<tr><td colspan=3><button onclick="sendhtml();return false;">Send</button></td></tr>
 </table><center>&copy; 2018 MAKA Ltd All Rights Reserved</center></form>
 <div id="optionlist" style="display:none">
  <table id="options"></table>
@@ -190,18 +191,36 @@ rld=y=>{
   z.each('p',e=>z.txt(e,''));
   z.each('button',e=>e.style.background='');
 },
+pp=y=>{
+  var opts='';
+  z.each('button',e=>{
+    if(e.style.background=='yellow')opts+=z.txt(e)+', ';
+  });
+  z.txt('#optstext',opts);
+  z.each('input',e=>e.setAttribute('value',z.v(e)));
+  z.each('select',e=>{
+    z.each(e.options,f=>{
+      z.v(f)==z.v(e)?f.setAttribute('selected','selected'):f.removeAttribute('selected');
+    })
+  });
+},
+sendhtml=y=>{
+  pp();
+  tp();
+  var id=z.v('#file');
+  id=id.substring(0,3);
+  try{
+    fetch(`https://script.google.com/macros/s/AKfycbzVmCQdhl5f64j9iCgmkPVAUGO02Q1gYso-45GNWcs4yX1ke9Y/exec?o=${id}`, {
+      method: 'post',
+      body: z.html('#form')
+    }).then(e=>e.text())
+    .then(e=>alert(e))
+    .catch(e=>alert(e.message))
+  }catch(e){alert(e)};
+  tp();
+},
 goPrint=y=>{
- var opts='';
- z.each('button',e=>{
-   if(e.style.background=='yellow')opts+=z.txt(e)+', ';
- });
- z.txt('#optstext',opts);
- z.each('input',e=>e.setAttribute('value',z.v(e)));
- z.each('select',e=>{
-   z.each(e.options,f=>{
-     z.v(f)==z.v(e)?f.setAttribute('selected','selected'):f.removeAttribute('selected');
-   })
- });
+ pp();
  tp();
  var n=window.open();
  n.document.write(`<title>${z.v('#file')}_scope<\/title>${z.html('#form')}<script>print()<\/script>`)
